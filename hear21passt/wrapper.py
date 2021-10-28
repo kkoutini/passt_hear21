@@ -46,7 +46,7 @@ class PasstBasicWrapper(nn.Module):
         """
         n_sounds, n_samples = audio.shape
         if n_samples <= self.max_model_window:
-            embed = self.forward(audio.to(self.device()))
+            embed = self.forward(audio.to(self.device()).contiguous())
             return embed
         embeddings, timestamps = self.get_timestamp_embeddings(audio, window_size=self.max_model_window,
                                                                hop=self.scene_hop)
@@ -83,4 +83,6 @@ class PasstBasicWrapper(nn.Module):
         timestamps = torch.as_tensor(timestamps) * hop * 1000. / self.sample_rate
 
         embeddings = torch.stack(embeddings).transpose(0, 1)  # now n_sounds, n_timestamps, timestamp_embedding_size
+        timestamps = timestamps.unsqueeze(0).expand( n_sounds,-1)
+
         return embeddings, timestamps
