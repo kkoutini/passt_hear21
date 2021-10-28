@@ -1,8 +1,8 @@
 import torch
 
-from hear21passt.models.passt import get_model as get_model_passt
-from hear21passt.models.preprocess import AugmentMelSTFT
-from hear21passt.wrapper import PasstBasicWrapper
+from .models.passt import get_model as get_model_passt
+from .models.preprocess import AugmentMelSTFT
+from .wrapper import PasstBasicWrapper
 
 
 def load_model(model_path=""):
