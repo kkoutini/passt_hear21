@@ -664,7 +664,7 @@ def passt_s_swa_p16_128_ap476(pretrained=False, **kwargs):
     """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
     ImageNet-1k weights from https://github.com/facebookresearch/deit.
     """
-    print("\n\n Loading DEIT BASE 384\n\n")
+    print("\n\n Loading PASST TRAINED ON AUDISET \n\n")
     model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
     model = _create_vision_transformer(
         'passt_s_swa_p16_128_ap476', pretrained=pretrained, distilled=True, **model_kwargs)
