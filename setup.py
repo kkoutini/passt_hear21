@@ -18,4 +18,5 @@ setup(
     },
     packages=find_packages(exclude=("tests",)),
     python_requires=">=3.7",
+    install_requires=["timm==0.4.12"]
 )
