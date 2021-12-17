@@ -5,8 +5,8 @@ from .models.preprocess import AugmentMelSTFT
 from .wrapper import PasstBasicWrapper
 
 
-def load_model(model_path=""):
-    model = get_concat_2level_model()
+def load_model(model_path="", mode="all"):
+    model = get_concat_2level_model(mode=mode)
     if torch.cuda.is_available():
         model.cuda()
     return model
@@ -36,14 +36,14 @@ def get_timestamp_embeddings(audio, model):
 
 
 
-def get_concat_2level_model():
+def get_concat_2level_model(**kwargs):
     mel = AugmentMelSTFT(n_mels=128, sr=32000, win_length=800, hopsize=320, n_fft=1024, freqm=48,
                          timem=192,
                          htk=False, fmin=0.0, fmax=None, norm=1, fmin_aug_range=10,
                          fmax_aug_range=2000)
 
     net = get_model_passt(arch="passt_s_swa_p16_128_ap476")
-    model = PasstBasicWrapper(mel=mel, net=net, timestamp_embedding_size=1295 * 2)
+    model = PasstBasicWrapper(mel=mel, net=net, timestamp_embedding_size=1295 * 2, **kwargs)
     return model
 
 

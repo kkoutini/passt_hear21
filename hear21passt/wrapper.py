@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class PasstBasicWrapper(nn.Module):
     def __init__(self, mel: nn.Module, net: nn.Module, max_model_window=10000, timestamp_window=160, timestamp_hop=50,
-                 scene_hop=2500, scene_embedding_size=1295, timestamp_embedding_size=1295):
+                 scene_hop=2500, scene_embedding_size=1295, timestamp_embedding_size=1295, mode="all"):
         """
         @param mel: spectrogram extractor
         @param net: network module
@@ -14,6 +14,7 @@ class PasstBasicWrapper(nn.Module):
         @param scene_hop: the hop lengh for scene embeddings (milliseconds).
         @param scene_embedding_size:
         @param timestamp_embedding_size:
+        @param mode: "all", "embed_only", "logits"
         """
         torch.nn.Module.__init__(self)
         self.mel = mel
@@ -26,6 +27,7 @@ class PasstBasicWrapper(nn.Module):
         self.scene_hop = int(scene_hop * self.sample_rate / 1000)
         self.scene_embedding_size = scene_embedding_size
         self.timestamp_embedding_size = timestamp_embedding_size
+        self.mode = mode
 
     def device(self):
         return self.device_proxy.device
@@ -34,7 +36,14 @@ class PasstBasicWrapper(nn.Module):
         specs = self.mel(x)
         specs = specs.unsqueeze(1)
         x, features = self.net(specs)
-        embed = torch.cat([x, features], dim=1)
+        if self.mode == "all":
+            embed = torch.cat([x, features], dim=1)
+        elif self.mode == "embed_only":
+            embed = features
+        elif self.mode == "logits":
+            embed = x
+        else:
+            raise RuntimeError(f"mode='{self.mode}' is not recognized not in: all, embed_only, logits")
         return embed
 
     def get_scene_embeddings(self, audio):
