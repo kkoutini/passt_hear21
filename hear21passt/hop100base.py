@@ -54,7 +54,7 @@ def get_basic_model(**kwargs):
                          htk=False, fmin=0.0, fmax=None, norm=1, fmin_aug_range=10,
                          fmax_aug_range=2000)
 
-    net = get_model_passt(arch="stfthop100")
+    net = get_model_passt(arch="stfthop100", input_tdim=3200)
     model = PasstBasicWrapper(mel=mel, net=net, **kwargs)
     return model
 
