@@ -1,5 +1,5 @@
 
-__version__ = "0.0.11"
+__version__ = "0.0.12"
 
 
 def embeding_size(hop=50, embeding_size=1000):
