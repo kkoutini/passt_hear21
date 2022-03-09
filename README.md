@@ -13,7 +13,7 @@ pip3 install torch==1.8.1+cu111  torchaudio==0.8.1 -f https://download.pytorch.o
 # Installation 
 Install the latest version of this repo:
 ```shell
-pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.10#egg=hear21passt' 
+pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.11#egg=hear21passt' 
 ```
 
 The models follow the [common API](https://neuralaudio.ai/hear2021-holistic-evaluation-of-audio-representations.html#common-api) of HEAR 21 
