@@ -165,6 +165,22 @@ default_cfgs = {
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.1-audioset/passt-s-f128-p16-s10-ap.476-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 998), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=527),
+    'passt_s_swa_f128_stfthop100_p16_s10_ap473': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.3-audioset/passt-s-f128-stfthop100-p16-s10-ap.473-swa.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3200), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
+    'passt_s_swa_f128_stfthop160_p16_s10_ap473': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.3-audioset/passt-s-f128-stfthop160-p16-s10-ap.473-swa.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
+    'openmic2008_passt_u_f128_p16_s10_ap85_swa': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.4-openmic/openmic2008.passt-u-f128-p16-s10-ap.85-swa.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3200), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=20),
+    'openmic2008_passt_u_f128_p16_s10_ap85  ': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.4-openmic/openmic2008.passt-u-f128-p16-s10-ap.85.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=20),
 }
 
 
@@ -670,6 +686,44 @@ def passt_s_swa_p16_128_ap476(pretrained=False, **kwargs):
         'passt_s_swa_p16_128_ap476', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
 
+def passt_s_swa_p16_128_ap476(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON AUDISET \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt_s_swa_p16_128_ap476', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+def passt_s_swa_f128_stfthop100_p16_s10_ap473(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON AUDISET, with STFT hop of 100 \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt_s_swa_f128_stfthop100_p16_s10_ap473', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+def passt_s_swa_f128_stfthop160_p16_s10_ap473(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON AUDISET, with STFT hop of 160 \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt_s_swa_f128_stfthop160_p16_s10_ap473', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+def openmic2008_passt_u_f128_p16_s10_ap85_swa(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON OpenMIC-2008 \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'openmic2008_passt_u_f128_p16_s10_ap85_swa', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
 
 def fix_embedding_layer(model, embed="default"):
     if embed == "default":
@@ -708,6 +762,12 @@ def get_model(arch="passt_s_swa_p16_128_ap476", pretrained=True, n_classes=527, 
         model_func = deit_base_distilled_patch16_384
     elif arch == "passt_s_swa_p16_128_ap476":  # pretrained
         model_func = passt_s_swa_p16_128_ap476
+    elif arch == "openmic2008":  # pretrained
+        model_func = openmic2008_passt_u_f128_p16_s10_ap85_swa
+    elif arch == "stfthop100":  # pretrained
+        model_func = passt_s_swa_f128_stfthop100_p16_s10_ap473
+    elif arch == "stfthop160":  # pretrained
+        model_func = passt_s_swa_f128_stfthop160_p16_s10_ap473
     if model_func is None:
         raise RuntimeError(f"Unknown model {arch}")
     model = model_func(pretrained=pretrained, num_classes=n_classes, in_chans=in_channels,
