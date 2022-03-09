@@ -55,6 +55,6 @@ def get_basic_model(**kwargs):
                          fmax_aug_range=2000)
 
     net = get_model_passt(arch="openmic2008", n_classes=20)
-    model = PasstBasicWrapper(mel=mel, net=net, **kwargs)
+    model = PasstBasicWrapper(mel=mel, net=net, scene_embedding_size=768+20, timestamp_embedding_size=768+20, **kwargs)
     return model
 
