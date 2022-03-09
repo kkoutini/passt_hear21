@@ -47,7 +47,7 @@ def get_2lvl_model(**kwargs):
                          htk=False, fmin=0.0, fmax=None, norm=1, fmin_aug_range=10,
                          fmax_aug_range=2000)
 
-    net = get_model_passt(arch="stfthop160", input_tdim=3200)
+    net = get_model_passt(arch="stfthop160", input_tdim=2000)
     model = PasstBasicWrapper(mel=mel, net=net, timestamp_embedding_size=768 + 1295 * 2, **kwargs)
     return model
 
