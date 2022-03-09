@@ -49,7 +49,7 @@ def get_basic_timestamp_embeddings(audio, model):
 
 
 def get_basic_model(**kwargs):
-    mel = AugmentMelSTFT(n_mels=128, sr=32000, win_length=800, hopsize=320, n_fft=1024, freqm=48,
+    mel = AugmentMelSTFT(n_mels=128, sr=32000, win_length=800, hopsize=160, n_fft=1024, freqm=48,
                          timem=192,
                          htk=False, fmin=0.0, fmax=None, norm=1, fmin_aug_range=10,
                          fmax_aug_range=2000)
