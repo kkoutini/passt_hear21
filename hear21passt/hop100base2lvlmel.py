@@ -34,7 +34,7 @@ def get_timestamp_embeddings(audio, model):
     """
     model.eval()
     with torch.no_grad():
-        embedmel, tmel = model.get_timestamp_mels(audio, window_size=1920)
+        embedmel, tmel = model.get_timestamp_mels(audio, window_size=6*100)
         embed1, t1 = model.get_timestamp_embeddings(audio)
         embed2, t2 = model.get_timestamp_embeddings(audio, window_size=model.timestamp_window * 5)  # larger window
         embed = torch.cat((embed1, embed2, embedmel), dim=-1)
