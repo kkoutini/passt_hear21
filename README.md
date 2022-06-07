@@ -39,7 +39,7 @@ embed = get_scene_embeddings(audio, model)
 print(embed.shape)
 ```
 
-# Getting the Loggits/Class labels
+# Getting the Logits/Class Labels
 
 You can get the logits (before the sigmoid activation) for the 527 classes of audioset:
 ```pyton
