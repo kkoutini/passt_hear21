@@ -38,3 +38,14 @@ print(embed.shape)
 embed = get_scene_embeddings(audio, model)
 print(embed.shape)
 ```
+
+# Getting the Loggits/Class labels
+
+You can get the logits (before the sigmoid activation) for the 527 classes of audioset:
+```pyton
+from hear21passt.base import load_model
+
+model = load_model(mode="logits").cuda()
+logits = model(wave_signal)
+```
+The class labels indices can be found [here](https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/metadata/class_labels_indices.csv)
