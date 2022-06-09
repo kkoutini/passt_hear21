@@ -165,6 +165,10 @@ default_cfgs = {
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.1-audioset/passt-s-f128-p16-s10-ap.476-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 998), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=527),
+    'passt_s_p16_s16_128_ap468': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.2-audioset/passt-s-f128-p16-s16-ap.468.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 998), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
     'passt_s_swa_f128_stfthop100_p16_s10_ap473': _cfg(
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.3-audioset/passt-s-f128-stfthop100-p16-s10-ap.473-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3200), crop_pct=1.0,
@@ -686,15 +690,19 @@ def passt_s_swa_p16_128_ap476(pretrained=False, **kwargs):
         'passt_s_swa_p16_128_ap476', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
 
-def passt_s_swa_p16_128_ap476(pretrained=False, **kwargs):
-    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
-    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+def passt_s_p16_s16_128_ap468(pretrained=False, **kwargs):
+    """ PaSST pre-trained on AudioSet
     """
-    print("\n\n Loading PASST TRAINED ON AUDISET \n\n")
+    print("\n\n Loading PaSST pre-trained on AudioSet Patch 16 stride 16 structured patchout mAP=472 \n\n")
     model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    if model_kwargs.get("stride") != (16, 16):
+        warnings.warn(
+            f"This model was pre-trained with strides {(16, 16)}, but now you set (fstride,tstride) to {model_kwargs.get('stride')}.")
     model = _create_vision_transformer(
-        'passt_s_swa_p16_128_ap476', pretrained=pretrained, distilled=True, **model_kwargs)
+        'passt_s_p16_s16_128_ap468', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
+
+
 def passt_s_swa_f128_stfthop100_p16_s10_ap473(pretrained=False, **kwargs):
     """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
     ImageNet-1k weights from https://github.com/facebookresearch/deit.
@@ -762,6 +770,8 @@ def get_model(arch="passt_s_swa_p16_128_ap476", pretrained=True, n_classes=527, 
         model_func = deit_base_distilled_patch16_384
     elif arch == "passt_s_swa_p16_128_ap476":  # pretrained
         model_func = passt_s_swa_p16_128_ap476
+    elif arch == "passt_s_p16_s16_128_ap468":
+        model_func = passt_s_p16_s16_128_ap468
     elif arch == "openmic2008":  # pretrained
         model_func = openmic2008_passt_u_f128_p16_s10_ap85_swa
     elif arch == "stfthop100":  # pretrained
