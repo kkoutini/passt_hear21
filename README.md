@@ -58,7 +58,7 @@ In case of an input longer than 10 seconds, the `get_scene_embeddings` method co
 Depending on the application, it may be useful to use a pre-trained that can extract embeddings from 20 or 30 seconds without averaging. These variant has pre-trained time positional encoding or 20/30 seconds:
 
 ```python
-# from version 0.0.17, it's possible to use:
+# from version 0.0.18, it's possible to use:
 from hear21passt.base20sec import load_model # up to 20 seconds of audio.
 # or 
 from hear21passt.base30sec import load_model # up to 30 seconds of audio.
