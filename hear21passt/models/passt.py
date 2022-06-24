@@ -185,6 +185,15 @@ default_cfgs = {
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.4-openmic/openmic2008.passt-u-f128-p16-s10-ap.85.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=20),
+    'passt-s-f128-20sec-p16-s10-ap474-swa': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/passt-s-f128-20sec-p16-s10-ap.474-swa.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
+    'passt-s-f128-30sec-p16-s10-ap473-swa': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/passt-s-f128-30sec-p16-s10-ap.473-swa.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3000), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
+    
 }
 
 
@@ -733,6 +742,25 @@ def openmic2008_passt_u_f128_p16_s10_ap85_swa(pretrained=False, **kwargs):
         'openmic2008_passt_u_f128_p16_s10_ap85_swa', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
 
+
+
+def passt_s_f128_20sec_p16_s10_ap474_swa(pretrained=False, **kwargs):
+    print("\n\n Loading PASST TRAINED ON AUDISET with 20 Second time encodings, with STFT hop of 160 \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt-s-f128-20sec-p16-s10-ap474-swa', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+def passt_s_f128_30sec_p16_s10_ap473_swa(pretrained=False, **kwargs):
+    print("\n\n Loading PASST TRAINED ON AUDISET with 30 Second time encodings, with STFT hop of 160 \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt-s-f128-30sec-p16-s10-ap473-swa', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+
 def fix_embedding_layer(model, embed="default"):
     if embed == "default":
         return model
@@ -778,6 +806,10 @@ def get_model(arch="passt_s_swa_p16_128_ap476", pretrained=True, n_classes=527, 
         model_func = passt_s_swa_f128_stfthop100_p16_s10_ap473
     elif arch == "stfthop160":  # pretrained
         model_func = passt_s_swa_f128_stfthop160_p16_s10_ap473
+    elif arch == "passt_20sec":  # pretrained
+        model_func = passt_s_f128_20sec_p16_s10_ap474_swa
+    elif arch == "passt_30sec":  # pretrained
+        model_func = passt_s_f128_30sec_p16_s10_ap473_swa
     if model_func is None:
         raise RuntimeError(f"Unknown model {arch}")
     model = model_func(pretrained=pretrained, num_classes=n_classes, in_chans=in_channels,
