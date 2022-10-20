@@ -193,7 +193,14 @@ default_cfgs = {
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/passt-s-f128-30sec-p16-s10-ap.473-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3000), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=527),
-    
+    'passt_b_f128_p16_s16_ap_459': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v.0.0.7-audioset/passt-b-f128-p16-s16-ap.459.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 998), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
+    'passt_u600_f128_p16_s16_ap_460': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v.0.0.7-audioset/passt-u600-f128-p16-s16-ap.460.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 998), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=527),
 }
 
 
@@ -760,6 +767,23 @@ def passt_s_f128_30sec_p16_s10_ap473_swa(pretrained=False, **kwargs):
     return model
 
 
+def passt_b_f128_p16_s16_ap_459(pretrained=False, **kwargs):
+    print("\n\n Loading PASST BASE TRAINED ON AUDISET with NO patchout \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt_b_f128_p16_s16_ap_459', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+def passt_u600_f128_p16_s16_ap_460(pretrained=False, **kwargs):
+    print("\n\n Loading PASST-U TRAINED ON AUDISET with Unstructured patchout \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'passt_u600_f128_p16_s16_ap_460', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+
 
 def fix_embedding_layer(model, embed="default"):
     if embed == "default":
@@ -810,6 +834,11 @@ def get_model(arch="passt_s_swa_p16_128_ap476", pretrained=True, n_classes=527, 
         model_func = passt_s_f128_20sec_p16_s10_ap474_swa
     elif arch == "passt_30sec":  # pretrained
         model_func = passt_s_f128_30sec_p16_s10_ap473_swa
+    elif arch == "passt_u600_f128_p16_s16_ap_460":  # pretrained
+        model_func = passt_u600_f128_p16_s16_ap_460
+    elif arch == "passt_b_f128_p16_s16_ap_459":  # pretrained
+        model_func = passt_b_f128_p16_s16_ap_459
+        
     if model_func is None:
         raise RuntimeError(f"Unknown model {arch}")
     model = model_func(pretrained=pretrained, num_classes=n_classes, in_chans=in_channels,
