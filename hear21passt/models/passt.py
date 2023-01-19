@@ -177,14 +177,18 @@ default_cfgs = {
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.3-audioset/passt-s-f128-stfthop160-p16-s10-ap.473-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=527),
-    'openmic2008_passt_u_f128_p16_s10_ap85_swa': _cfg(
-        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.4-openmic/openmic2008.passt-u-f128-p16-s10-ap.85-swa.pt',
+    'openmic_passt_s_f128_10sec_p16_s10_ap85': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/openmic-passt-s-f128-10sec-p16-s10-ap.85.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 3200), crop_pct=1.0,
         classifier=('head.1', 'head_dist'), num_classes=20),
-    'openmic2008_passt_u_f128_p16_s10_ap85  ': _cfg(
-        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.4-openmic/openmic2008.passt-u-f128-p16-s10-ap.85.pt',
+    'fsd50k_passt_s_f128_p16_s10_ap655': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/fsd50k-passt-s-f128-p16-s10-ap.655.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
-        classifier=('head.1', 'head_dist'), num_classes=20),
+        classifier=('head.1', 'head_dist'), num_classes=200),
+    'fsd50k_passt_s_n_f128_p16_s16_ap642': _cfg(
+        url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/fsd50k-passt-s-n-f128-p16-s16-ap.642.pt',
+        mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
+        classifier=('head.1', 'head_dist'), num_classes=200),
     'passt-s-f128-20sec-p16-s10-ap474-swa': _cfg(
         url='https://github.com/kkoutini/PaSST/releases/download/v0.0.5/passt-s-f128-20sec-p16-s10-ap.474-swa.pt',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, input_size=(1, 128, 2000), crop_pct=1.0,
@@ -739,20 +743,42 @@ def passt_s_swa_f128_stfthop160_p16_s10_ap473(pretrained=False, **kwargs):
         'passt_s_swa_f128_stfthop160_p16_s10_ap473', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
 
-def openmic2008_passt_u_f128_p16_s10_ap85_swa(pretrained=False, **kwargs):
+def openmic_passt_s_f128_10sec_p16_s10_ap85(pretrained=False, **kwargs):
     """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
     ImageNet-1k weights from https://github.com/facebookresearch/deit.
     """
     print("\n\n Loading PASST TRAINED ON OpenMIC-2008 \n\n")
     model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
     model = _create_vision_transformer(
-        'openmic2008_passt_u_f128_p16_s10_ap85_swa', pretrained=pretrained, distilled=True, **model_kwargs)
+        'openmic_passt_s_f128_10sec_p16_s10_ap85', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+def fsd50k_passt_s_f128_p16_s10_ap655(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON fsd50k ap655\n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'fsd50k_passt_s_f128_p16_s10_ap655', pretrained=pretrained, distilled=True, **model_kwargs)
+    return model
+
+
+def fsd50k_passt_s_n_f128_p16_s16_ap642(pretrained=False, **kwargs):
+    """ DeiT-base distilled model @ 384x384 from paper (https://arxiv.org/abs/2012.12877).
+    ImageNet-1k weights from https://github.com/facebookresearch/deit.
+    """
+    print("\n\n Loading PASST TRAINED ON fsd50k without patch overlap \n\n")
+    model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
+    model = _create_vision_transformer(
+        'fsd50k_passt_s_n_f128_p16_s16_ap642', pretrained=pretrained, distilled=True, **model_kwargs)
     return model
 
 
 
 def passt_s_f128_20sec_p16_s10_ap474_swa(pretrained=False, **kwargs):
-    print("\n\n Loading PASST TRAINED ON AUDISET with 20 Second time encodings, with STFT hop of 160 \n\n")
+    print("\n\n Loading PASST TRAINED ON AUDISET with 20 Second time encodings \n\n")
     model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
     model = _create_vision_transformer(
         'passt-s-f128-20sec-p16-s10-ap474-swa', pretrained=pretrained, distilled=True, **model_kwargs)
@@ -760,7 +786,7 @@ def passt_s_f128_20sec_p16_s10_ap474_swa(pretrained=False, **kwargs):
 
 
 def passt_s_f128_30sec_p16_s10_ap473_swa(pretrained=False, **kwargs):
-    print("\n\n Loading PASST TRAINED ON AUDISET with 30 Second time encodings, with STFT hop of 160 \n\n")
+    print("\n\n Loading PASST TRAINED ON AUDISET with 30 Second time encodings \n\n")
     model_kwargs = dict(patch_size=16, embed_dim=768, depth=12, num_heads=12, **kwargs)
     model = _create_vision_transformer(
         'passt-s-f128-30sec-p16-s10-ap473-swa', pretrained=pretrained, distilled=True, **model_kwargs)
@@ -823,16 +849,50 @@ def get_model(arch="passt_s_swa_p16_128_ap476", pretrained=True, n_classes=527, 
     elif arch == "passt_s_swa_p16_128_ap476":  # pretrained
         model_func = passt_s_swa_p16_128_ap476
     elif arch == "passt_s_p16_s16_128_ap468":
+        if fstride!=16 or tstride!=16:
+            raise ValueError("fstride and tstride must be 16 for arch=passt_s_p16_s16_128_ap468. "
+                "This model is pretrained with 16x16 patches and 16,16 strides."
+                "Having different values will result in a different freq/time positional encoding shape."
+                             "you can solve this issue by calling get_model with get_model(arch=\"passt_s_p16_s16_128_ap468\"...,fstride=10, tstride=10)")
         model_func = passt_s_p16_s16_128_ap468
-    elif arch == "openmic2008":  # pretrained
-        model_func = openmic2008_passt_u_f128_p16_s10_ap85_swa
+    elif arch == "openmic":  # pretrained
+        model_func = openmic_passt_s_f128_10sec_p16_s10_ap85
+    elif arch == "fsd50k":  # pretrained
+        model_func = fsd50k_passt_s_f128_p16_s10_ap655
+    elif arch == "fsd50k-n":  # pretrained
+        if fstride!=16 or tstride!=16:
+            raise ValueError("fstride and tstride must be 16 for arch=fsd50k-n. "
+                "This model is pretrained with 16x16 patches and 16,16 strides."
+                "Having different values will result in a different freq/time positional encoding shape."
+                             "you can solve this issue by calling get_model with get_model(arch=\"fsd50k-n\"...,fstride=10, tstride=10)")
+        model_func = fsd50k_passt_s_n_f128_p16_s16_ap642
     elif arch == "stfthop100":  # pretrained
+        if input_tdim != 3200:
+            raise ValueError("input_tdim must be 3200 for arch=stfthop100. "
+                "This model is pretrained with 3200 time frames per clip, resulted from an STFT hop=100."
+                "Having different values will result in a different positional encoding shape."
+                "you can solve this issue by calling get_model with get_model(arch=\"stfthop100\"...,input_tdim=3200), and make sure the STFT is configured with hop=100")
         model_func = passt_s_swa_f128_stfthop100_p16_s10_ap473
     elif arch == "stfthop160":  # pretrained
+        if input_tdim != 2000:
+            raise ValueError("input_tdim must be 2000 for arch=stfthop160. "
+                "This model is pretrained with 2000 time frames per clip, resulted from an STFT hop=160."
+                "Having different values will result in a different positional encoding shape."
+                 "you can solve this issue by calling get_model with get_model(arch=\"stfthop160\"...,input_tdim=2000), and make sure the STFT is configured with hop=160")
         model_func = passt_s_swa_f128_stfthop160_p16_s10_ap473
     elif arch == "passt_20sec":  # pretrained
+        if input_tdim != 2000:
+            raise ValueError("input_tdim must be 2000 for arch=passt_20sec. "
+                "This model is pretrained with 2000 time frames per clip."
+                "Having different values will result in a different positional encoding shape."
+                "you can solve this issue by calling get_model with get_model(arch=\"passt_20sec\"...,input_tdim=2000)")
         model_func = passt_s_f128_20sec_p16_s10_ap474_swa
     elif arch == "passt_30sec":  # pretrained
+        if input_tdim != 3000:
+            raise ValueError("input_tdim must be 3000 for arch=passt_30sec. "
+                "This model is pretrained with 3000 time frames per clip."
+                "Having different values will result in a different positional encoding shape."
+                "you can solve this issue by calling get_model with get_model(arch=\"passt_30sec\"...,input_tdim=3000)")
         model_func = passt_s_f128_30sec_p16_s10_ap473_swa
     elif arch == "passt_u600_f128_p16_s16_ap_460":  # pretrained
         model_func = passt_u600_f128_p16_s16_ap_460

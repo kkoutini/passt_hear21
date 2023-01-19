@@ -62,6 +62,6 @@ def get_basic_model(**kwargs):
                          fmax_aug_range=2000)
 
     net = get_model_passt(arch="passt_30sec", input_tdim=3000)
-    model = PasstBasicWrapper(mel=mel, net=net, max_model_window=30000, **kwargs)
+    model = PasstBasicWrapper(
+        mel=mel, net=net, max_model_window=30000, **kwargs)
     return model
-
