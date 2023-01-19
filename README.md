@@ -71,7 +71,7 @@ logits = model(wave_signal)
 
 Each pre-trained model has a specific frequency/time positional encoding, it's necessary to select the correct input shape to be able to load the models. The important variables for loading are `input_tdim`, `fstride` and `tstride` to specify the spectrograms time frames, the patches stride over frequency, and patches stride over time, respectively.
 
-If you provide the wrong spectrograms, the model may fail silently, by generating low-quality embeddings and logits. Make sure you have the correct spectrograms' config for the selected pre-trained models. 
+
 
 ```python
 import torch
@@ -97,6 +97,7 @@ model.net = get_model_passt("passt_20sec", input_tdim=2000)
 model.net = get_model_passt("passt_30sec", input_tdim=3000)
 ```
 
+If you provide the wrong spectrograms, the model may fail silently, by generating low-quality embeddings and logits. Make sure you have the correct spectrograms' config for the selected pre-trained models. 
 Models with higher spectrogram resolutions, need to specify the correct spectrogram config:
 
 ```python
