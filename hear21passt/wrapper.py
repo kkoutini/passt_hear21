@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class PasstBasicWrapper(nn.Module):
     def __init__(self, mel: nn.Module, net: nn.Module, max_model_window=10000, timestamp_window=160, timestamp_hop=50,
-                 scene_hop=2500, scene_embedding_size=1295, timestamp_embedding_size=1295, mode="all"):
+                 scene_hop=2500, scene_embedding_size=1295, timestamp_embedding_size=1295, mode="all", **kwargs):
         """
         @param mel: spectrogram extractor
         @param net: network module
