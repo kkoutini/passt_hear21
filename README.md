@@ -13,7 +13,7 @@ pip3 install torch==1.8.1+cu111  torchaudio==0.8.1 -f https://download.pytorch.o
 # Installation 
 Install the latest version of this repo:
 ```shell
-pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.21#egg=hear21passt' 
+pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.22#egg=hear21passt' 
 ```
 
 The models follow the [common API](https://neuralaudio.ai/hear2021-holistic-evaluation-of-audio-representations.html#common-api) of HEAR 21 
@@ -51,6 +51,14 @@ logits = model(wave_signal)
 The class labels indices can be found [here](https://github.com/qiuqiangkong/audioset_tagging_cnn/blob/master/metadata/class_labels_indices.csv)
 
 
+You can also use different pre-trained models, for example, the model trained with KD `passt_s_kd_p16_128_ap486`:
+```python
+from hear21passt.base import get_basic_model
+
+model = get_basic_model(mode="logits", arch="passt_s_kd_p16_128_ap486")
+logits = model(wave_signal)
+
+```
 
 # Supporting longer clips
 
