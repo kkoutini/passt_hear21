@@ -31,3 +31,5 @@ if __name__ == '__main__':
     model.net = get_model_passt("stfthop160", input_tdim=2000)
     model.net = get_model_passt("passt_20sec", input_tdim=2000)
     model.net = get_model_passt("passt_30sec", input_tdim=3000)
+    
+    model.net = get_model_passt("passt_l_kd_p16_128_ap47")
