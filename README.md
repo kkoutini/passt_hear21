@@ -9,11 +9,11 @@ This is an implementation is tested with CUDA version 11.1, and torch installed:
 ```shell
 pip3 install torch==1.8.1+cu111  torchaudio==0.8.1 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
 ```
-
+but should work on newer versions of CUDA and torch.
 # Installation 
 Install the latest version of this repo:
 ```shell
-pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.24#egg=hear21passt' 
+pip install -e 'git+https://github.com/kkoutini/passt_hear21@0.0.25#egg=hear21passt' 
 ```
 
 The models follow the [common API](https://neuralaudio.ai/hear2021-holistic-evaluation-of-audio-representations.html#common-api) of HEAR 21 
