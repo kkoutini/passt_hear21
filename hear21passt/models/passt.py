@@ -16,11 +16,23 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from timm.models.layers.helpers import to_2tuple
+import collections
+from itertools import repeat
+
 
 from .helpers.vit_helpers import update_default_cfg_and_kwargs, DropPath, trunc_normal_, build_model_with_cfg
 
 _logger = logging.getLogger()
+
+# From PyTorch internals
+def _ntuple(n):
+    def parse(x):
+        if isinstance(x, collections.abc.Iterable) and not isinstance(x, str):
+            return tuple(x)
+        return tuple(repeat(x, n))
+    return parse
+
+to_2tuple = _ntuple(2)
 
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
